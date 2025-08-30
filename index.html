@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Problem - YouTube Shorts</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(180deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            color: white;
+        }
+
+        .container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 20px 25px;
+            justify-content: center;
+            max-width: 100vw;
+            min-height: 100svh; /* Use small viewport height for mobile */
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .title {
+            color: #ffffff;
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 0;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            letter-spacing: -0.5px;
+            line-height: 1.1;
+        }
+
+        .subtitle {
+            color: #a8c8ff;
+            font-size: 1.3rem;
+            font-weight: 500;
+            opacity: 0.9;
+        }
+
+        .problem-section {
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 20px 20px;
+            margin: 5px 0;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .problem-text {
+            color: #ffffff;
+            font-size: 1.3rem;
+            line-height: 1.4;
+            font-weight: 600;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        }
+
+        .highlight {
+            background: linear-gradient(135deg, #ff6b6b, #ffd93d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+            text-shadow: none;
+        }
+
+        .options-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+        }
+
+        .options-title {
+            color: #ffffff;
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-align: center;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        }
+
+        .options-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            flex: 1;
+            justify-content: space-around;
+        }
+
+        .option {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            min-height: 55px;
+            flex: 1;
+            position: relative;
+        }
+
+        .option:hover, .guessing-highlight {
+            background: rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.4);
+            transform: translateX(8px);
+        }
+
+        .guessing-question-mark {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.5);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .guessing-highlight .guessing-question-mark {
+            opacity: 1;
+        }
+
+        .option-label {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            font-weight: 800;
+            font-size: 1.2rem;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            flex-shrink: 0;
+        }
+
+        .option-text {
+            color: #ffffff;
+            font-size: 1.1rem;
+            font-weight: 600;
+            line-height: 1.2;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        }
+
+        .math-icon {
+            font-size: 2rem;
+            margin: 0 10px;
+            display: inline-block;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-8px);
+            }
+            60% {
+                transform: translateY(-4px);
+            }
+        }
+
+
+        .question-mark {
+            background: linear-gradient(135deg, #ff6b6b, #ffd93d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-left: 10px;
+        }
+
+        /* YouTube Shorts specific optimizations */
+        @media (max-aspect-ratio: 1/1) {
+            .container {
+                padding: 30px 0 120px 25px; /* Bottom and left padding */
+            }
+
+            .header, .problem-section {
+                padding-right: 90px; /* Normal right padding for top content */
+            }
+
+            .options-section {
+                padding-right: 90px; /* Extra right padding for YT UI */
+            }
+            
+            .title {
+                font-size: 2.2rem;
+            }
+            
+            .problem-text {
+                font-size: 1.6rem;
+            }
+            
+            .option-text {
+                font-size: 1.4rem;
+            }
+            
+            .option {
+                min-height: 70px;
+                padding: 20px 15px;
+            }
+            
+            .option-label {
+                width: 50px;
+                height: 50px;
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 25px 0 100px 20px; /* Bottom and left padding */
+            }
+
+            .header, .problem-section {
+                padding-right: 90px; /* Normal right padding for top content */
+            }
+
+            .options-section {
+                padding-right: 90px; /* Extra right padding for YT UI */
+            }
+            
+            .title {
+                font-size: 2rem;
+            }
+            
+            .subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .problem-text {
+                font-size: 1.4rem;
+            }
+            
+            .options-title {
+                font-size: 1.5rem;
+            }
+            
+            .option-text {
+                font-size: 1.3rem;
+            }
+        }
+
+        /* High contrast mode for accessibility */
+        @media (prefers-contrast: high) {
+            .problem-section {
+                background: rgba(255, 255, 255, 0.2);
+                border: 2px solid rgba(255, 255, 255, 0.3);
+            }
+            
+            .option {
+                background: rgba(255, 255, 255, 0.2);
+                border: 2px solid rgba(255, 255, 255, 0.3);
+            }
+        }
+
+        /* Reduced motion for accessibility */
+        @media (prefers-reduced-motion: reduce) {
+            .math-icon {
+                animation: none;
+            }
+            
+            .option {
+                transition: none;
+            }
+            
+            .option:hover {
+                transform: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="title">Math Challenge</h1>
+        </div>
+
+        <div class="problem-section">
+            <p class="problem-text">
+                Father is <span class="highlight">3× older</span> than son now
+                <br><br>
+                In <span class="highlight">12 years</span>, father will be <span class="highlight">2× older</span>
+                <br><br>
+                <strong>Current ages<span class="question-mark">?</span></strong>
+            </p>
+        </div>
+
+        <div class="options-section">
+            <h2 class="options-title">Comment Your Answer 👇</h2>
+            <div class="options-grid">
+                <div class="option">
+                    <div class="option-label">A</div>
+                    <div class="option-text">Son: 10, Father: 30</div>
+                    <span class="guessing-question-mark">?</span>
+                </div>
+                <div class="option">
+                    <div class="option-label">B</div>
+                    <div class="option-text">Son: 12, Father: 36</div>
+                    <span class="guessing-question-mark">?</span>
+                </div>
+                <div class="option">
+                    <div class="option-label">C</div>
+                    <div class="option-text">Son: 15, Father: 45</div>
+                    <span class="guessing-question-mark">?</span>
+                </div>
+                <div class="option">
+                    <div class="option-label">D</div>
+                    <div class="option-text">Son: 8, Father: 24</div>
+                    <span class="guessing-question-mark">?</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const options = document.querySelectorAll('.option');
+        let selectedOption = null;
+        let animationInterval;
+
+        // Guessing animation
+        let currentOptionIndex = 0;
+        function startGuessingAnimation() {
+            animationInterval = setInterval(() => {
+                options.forEach(opt => opt.classList.remove('guessing-highlight'));
+                
+                if (document.hidden) return; // Pause animation when tab is not active
+
+                options[currentOptionIndex].classList.add('guessing-highlight');
+                currentOptionIndex = (currentOptionIndex + 1) % options.length;
+            }, 2000);
+        }
+
+        function stopGuessingAnimation() {
+            clearInterval(animationInterval);
+            options.forEach(opt => opt.classList.remove('guessing-highlight'));
+        }
+
+        options.forEach((option, index) => {
+            option.addEventListener('click', function() {
+                stopGuessingAnimation(); // Stop animation on click
+
+                // Remove previous selections
+                options.forEach(opt => {
+                    opt.style.background = 'rgba(255, 255, 255, 0.15)';
+                    opt.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+                    opt.style.transform = '';
+                });
+                
+                // Highlight selected option
+                this.style.background = 'linear-gradient(135deg, rgba(102, 126, 234, 0.4), rgba(118, 75, 162, 0.4))';
+                this.style.borderColor = 'rgba(255, 255, 255, 0.6)';
+                
+                selectedOption = index;
+                
+                // Add visual feedback
+                const label = this.querySelector('.option-label');
+                label.style.transform = 'scale(1.1)';
+                setTimeout(() => {
+                    label.style.transform = 'scale(1)';
+                }, 200);
+            });
+        });
+
+        startGuessingAnimation();
+    </script>
+</body>
+</html>
